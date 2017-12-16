@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace Contact_List.Controllers
 {
-    public class HomeController : Controller
+    public class ContactsController : Controller
     {
         public ActionResult Index()
         {
