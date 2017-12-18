@@ -1,5 +1,6 @@
 ﻿using Contact_List.BusinessLogic;
 using Contact_List.Models;
+using Contact_List.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -21,7 +22,8 @@ namespace Contact_List.Controllers
             conn.SqlCommand.Connection.Open();
             conn.Reader = conn.SqlCommand.ExecuteReader();
 
-            List<Contact> listOfContacts = new List<Contact>();
+            ContactsViewModel listOfContacts = new ContactsViewModel();
+            listOfContacts.Contacts = new List<Models.Contact>();
 
             while (conn.Reader.Read())
             {
@@ -33,21 +35,16 @@ namespace Contact_List.Controllers
                 contact.Email = (string)conn.Reader["email"];
                 contact.CreatedOn = Convert.ToDateTime(conn.Reader["createon"]);
                 contact.ModifiedOn = Convert.ToDateTime(conn.Reader["modifiedon"]);
+
+                listOfContacts.Contacts.Add(contact);
             }
 
-            return View();
+            return View(listOfContacts);
         }
 
-        public ActionResult About()
+        public ActionResult CreateNewContact()
         {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
+            ViewBag.Message = "Create new contact";
 
             return View();
         }
