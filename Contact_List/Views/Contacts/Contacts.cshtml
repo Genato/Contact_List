@@ -1,33 +1,52 @@
 ﻿@model Contact_List.ViewModels.ContactsViewModel
 
+
+@*@using (Html.BeginForm("DeleteContact", "Contacts", FormMethod.Post))
+{*@
+
 <div>
-    @Html.ActionLink("Create", "CreateNewContact", null, new { @class= "btn btn-primary" })
+    @Html.ActionLink("Create", "CreateNewContact", null, new { @class = "btn btn-success" })
 </div>
 
-<table class="table table-hover">
-    <thead>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>@Html.LabelFor(m => m.Contacts.First().Name)</th>
+                <th>@Html.LabelFor(m => m.Contacts.First().Surname)</th>
+                <th>@Html.LabelFor(m => m.Contacts.First().Phone)</th>
+                <th>@Html.LabelFor(m => m.Contacts.First().Email)</th>
+            </tr>
+        </thead>
+        @for (int i = 0; i < Model.Contacts.Count; ++i)
+        {
         <tr>
-            <th>@Html.LabelFor(m => m.Contacts.First().Name)</th>
-            <th>@Html.LabelFor(m => m.Contacts.First().Surname)</th>
-            <th>@Html.LabelFor(m => m.Contacts.First().Phone)</th>
-            <th>@Html.LabelFor(m => m.Contacts.First().Email)</th>
+            @*<td>
+                @Html.CheckBoxFor(m => m.Contacts[i].Checked)
+            </td>*@
+            <td>
+                @Model.Contacts[i].Name
+            </td>
+            <td>
+                @Model.Contacts[i].Surname
+            </td>
+            <td>
+                @Model.Contacts[i].Phone
+            </td>
+            <td>
+                @Model.Contacts[i].Email
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "EditContact", new { @contactID = Model.Contacts[i].Id })
+            </td>
+            <td>
+                @Html.ActionLink("Delete", "DeleteContact", new { @contactID = Model.Contacts[i].Id})
+            </td>
         </tr>
-    </thead>
-    @foreach (var item in Model.Contacts)
-    {
-        <tr>
-            <td>
-                @item.Name
-            </td>
-            <td>
-                @item.Surname
-            </td>
-            <td>
-                @item.Phone
-            </td>
-            <td>
-                @item.Email
-            </td>
-        </tr>
-    }
-</table>
+        }
+    </table>
+
+    @*<div>
+        <input type="submit" value="Delete" class="btn btn-danger" />
+    </div>*@
+
+@*}*@

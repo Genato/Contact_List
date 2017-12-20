@@ -163,9 +163,10 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Contacts\About.cshtml" />
+    <Content Include="Views\Contacts\EditContact.cshtml" />
     <Content Include="Views\Contacts\CreateNewContact.cshtml" />
     <Content Include="Views\Contacts\Contacts.cshtml" />
+    <Content Include="Views\Contacts\DeleteContact.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -30,5 +30,7 @@ namespace Contact_List.Models
         public DateTime CreatedOn { get; set; }
 
         public DateTime ModifiedOn { get; set; }
+
+        public bool Checked { get; set; }
     }
 }
