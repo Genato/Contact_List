@@ -15,30 +15,26 @@ namespace Contact_List.Controllers
     public class ContactsController : Controller
     {
         [HttpGet]
-        public ActionResult Contacts(int pageNumber = 1, string orderBy = "id")
+        public ActionResult Contacts(int currentPage = 1, string orderBy = "id", string order = "asc")
         {
             DbConnection conn = new DbConnection();
-            conn.SqlCommand.CommandText = "ListOfContactsWithPagination";
-            conn.SqlCommand.CommandType = CommandType.StoredProcedure;
             conn.SqlCommand.Connection.Open();
-            conn.Reader = conn.SqlCommand.ExecuteReader();
 
-            ContactsViewModel listOfContacts = new ContactsViewModel();
-            listOfContacts.Contacts = new List<Models.Contact>();
+            ContactLogic contactlogic = new ContactLogic();
+            int numberOfContacts = contactlogic.GetTotalNumberOfContacts(conn);
 
-            while (conn.Reader.Read())
+            conn.SqlCommand.Parameters.Clear();
+            conn.Reader = contactlogic.GetListOfContactsWithPagination(conn, currentPage, orderBy, order);
+
+            ContactsViewModel listOfContacts = new ContactsViewModel
             {
-                Contact contact = new Contact();
-                contact.Id = (int)conn.Reader["id"];
-                contact.Name = (string)conn.Reader["name"];
-                contact.Surname = (string)conn.Reader["surname"];
-                contact.Phone = (string)conn.Reader["phone"];
-                contact.Email = (string)conn.Reader["email"];
-                contact.CreatedOn = Convert.ToDateTime(conn.Reader["createon"]);
-                contact.ModifiedOn = Convert.ToDateTime(conn.Reader["modifiedon"]);
+                Contacts = contactlogic.GenerateListOfContactsFromSqlDataReader(conn.Reader),
+                NumberOfPaginationPages = contactlogic.GenerateNumberOfPaginationPagesFromTotalNumberOfContacts(currentPage, numberOfContacts),
+                CurrentPage = currentPage,
+                CurrentOrder = order
+            };
 
-                listOfContacts.Contacts.Add(contact);
-            }
+            conn.SqlCommand.Connection.Close();
 
             return View(listOfContacts);
         }

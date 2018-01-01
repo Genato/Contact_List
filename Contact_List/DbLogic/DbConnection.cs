@@ -7,6 +7,9 @@ using System.Web.Configuration;
 
 namespace Contact_List.BusinessLogic
 {
+    /// <summary>
+    /// ADO.NET waraper
+    /// </summary>
     public class DbConnection
     {
         public DbConnection()

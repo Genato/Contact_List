@@ -1,28 +1,25 @@
 ﻿@model Contact_List.ViewModels.ContactsViewModel
 
 
-@*@using (Html.BeginForm("DeleteContact", "Contacts", FormMethod.Post))
-{*@
-
 <div>
     @Html.ActionLink("Create", "CreateNewContact", null, new { @class = "btn btn-success" })
 </div>
 
-    <table class="table table-hover">
-        <thead>
-            <tr>
-                <th>@Html.LabelFor(m => m.Contacts.First().Name)</th>
-                <th>@Html.LabelFor(m => m.Contacts.First().Surname)</th>
-                <th>@Html.LabelFor(m => m.Contacts.First().Phone)</th>
-                <th>@Html.LabelFor(m => m.Contacts.First().Email)</th>
-            </tr>
-        </thead>
-        @for (int i = 0; i < Model.Contacts.Count; ++i)
-        {
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>@Html.LabelFor(m => m.Contacts.First().Name)</th>
+            <th>@Html.LabelFor(m => m.Contacts.First().Surname)</th>
+            <th>@Html.LabelFor(m => m.Contacts.First().Phone)</th>
+            <th>@Html.LabelFor(m => m.Contacts.First().Email)</th>
+        </tr>
+    </thead>
+    @for (int i = 0; i < Model.Contacts.Count; ++i)
+    {
         <tr>
             @*<td>
-                @Html.CheckBoxFor(m => m.Contacts[i].Checked)
-            </td>*@
+                    @Html.CheckBoxFor(m => m.Contacts[i].Checked)
+                </td>*@
             <td>
                 @Model.Contacts[i].Name
             </td>
@@ -39,14 +36,24 @@
                 @Html.ActionLink("Edit", "EditContact", new { @contactID = Model.Contacts[i].Id })
             </td>
             <td>
-                @Html.ActionLink("Delete", "DeleteContact", new { @contactID = Model.Contacts[i].Id})
+                @Html.ActionLink("Delete", "DeleteContact", new { @contactID = Model.Contacts[i].Id })
             </td>
         </tr>
+    }
+</table>
+
+<div class="pagination">
+    @for (int i = Model.NumberOfPaginationPages.First(); i <= Model.NumberOfPaginationPages.Last(); ++i)
+    {
+        if (i == Model.CurrentPage)
+        {
+            @Html.ActionLink(i + "", "Contacts", "Contacts", new { currentPage = i }, new { id = "currentPage" })
         }
-    </table>
+        else
+        {
+            @Html.ActionLink(i + "", "Contacts", "Contacts", new { currentPage = i }, null)
+        }
+    }
+</div>
 
-    @*<div>
-        <input type="submit" value="Delete" class="btn btn-danger" />
-    </div>*@
 
-@*}*@

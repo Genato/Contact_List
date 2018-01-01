@@ -1,0 +1,14 @@
+﻿
+
+.pagination a{
+        padding: 10%;
+        border: 1px solid black;
+        font-weight: bold;
+        color: #8d8e91;
+        cursor: pointer;
+    }
+
+.pagination a:hover {
+            color: #bb141a;
+            border-color: yellowgreen;
+        }
