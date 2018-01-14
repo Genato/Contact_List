@@ -19,3 +19,22 @@
 #currentPage {
     background-color: burlywood;
 }
+
+#searchDiv {
+    position: relative;
+    float: right;
+    border: 1px solid black;
+    padding:2px;
+    border-radius: 3px;
+    background-color: aliceblue;
+    margin-bottom: 2%;
+    margin-top: 1%
+}
+
+#createNewContact{
+    position:relative;
+    float:left;
+    width:13%;
+    margin-top: 9%;
+}
+

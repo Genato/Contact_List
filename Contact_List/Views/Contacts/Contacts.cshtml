@@ -1,81 +1,102 @@
 ﻿@model Contact_List.ViewModels.ContactsViewModel
 
 
-<div>
+<div id="createNewContact">
     @Html.ActionLink("Create new contact", "CreateNewContact", null, new { @class = "btn btn-success" })
 </div>
 
-<table id="contactsTable" class="table table-hover">
-    <thead>
-        <tr>
-            <th>
-                @Html.ActionLink("Name", "Contacts", new { @orderBy = "name", order = Model.CurrentOrder == "asc" ? "desc" : "asc" })
-            </th>
-            <th>
-                @Html.ActionLink("Surname", "Contacts", new { @orderBy = "surname", order = Model.CurrentOrder == "asc" ? "desc" : "asc" })
-            </th>
-            <th>
-                @Html.ActionLink("Phone", "Contacts", new { @orderBy = "phone", order = Model.CurrentOrder == "asc" ? "desc" : "asc" })
-            </th>
-            <th>
-                @Html.ActionLink("Email", "Contacts", new { @orderBy = "email", order = Model.CurrentOrder == "asc" ? "desc" : "asc" })
-            </th>
-            <th>
-                @Html.ActionLink("CreatedOn", "Contacts", new { @orderBy = "createon", order = Model.CurrentOrder == "asc" ? "desc" : "asc" })
-            </th>
-            <th>
-                @Html.ActionLink("ModifiedOn", "Contacts", new { @orderBy = "modifiedon", order = Model.CurrentOrder == "asc" ? "desc" : "asc" })
-            </th>
-        </tr>
-    </thead>
-    @for (int i = 0; i < Model.Contacts.Count; ++i)
-    {
-        <tr>
-            <td>
-                @Model.Contacts[i].Name
-            </td>
-            <td>
-                @Model.Contacts[i].Surname
-            </td>
-            <td>
-                @Model.Contacts[i].Phone
-            </td>
-            <td>
-                @Model.Contacts[i].Email
-            </td>
-            <td>
-                @Model.Contacts[i].CreatedOn
-            </td>
-            <td>
-                @Model.Contacts[i].ModifiedOn
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "EditContact", new { @contactID = Model.Contacts[i].Id })
-            </td>
-            <td>
-                @Html.ActionLink("Delete", "DeleteContact", new { @contactID = Model.Contacts[i].Id }, new { @id = "DeleteContact" })
-            </td>
-        </tr>
-    }
-</table>
+<div id="searchDiv">
+    <div class="form-group">
+        @Html.Label("Name")
+        @Html.RadioButtonFor(m => m.SearchBy, "name")
+    </div>
+    <div class="form-group">
+        @Html.Label("Surname")
+        @Html.RadioButtonFor(m => m.SearchBy, "surname")
+    </div>
+        @Html.TextBoxFor(m => m.SearchByValue, new { @id = "searchByValue" })
 
-<div class="pagination">
-    @for (int i = Model.NumberOfPaginationPages.First(); i <= Model.NumberOfPaginationPages.Last(); ++i)
-    {
-        if (Model.TotalNumberOfContacts <= 10)
-        {
-            break;
-        }
-
-        if (i == Model.CurrentPage)
-        {
-            @Html.ActionLink(i + "", "Contacts", "Contacts", new { currentPage = i, order = Model.CurrentOrder }, new { id = "currentPage" })
-        }
-        else
-        {
-            @Html.ActionLink(i + "", "Contacts", "Contacts", new { currentPage = i, order = Model.CurrentOrder }, null)
-        }
-    }
+        @Html.ActionLink("Search", "Contacts", "Contacts", null, new { @class = "btn btn-primary", onclick = "this.href += '?searchBy=' + $('input[name = SearchBy]:checked').val() + '&searchByValue=' + $('#searchByValue').val() " })
 </div>
+
+    <table id="contactsTable" class="table table-hover">
+        <thead>
+            @{ 
+                string currentOrder = Model.CurrentOrder == "asc" ? "desc" : "asc";
+                string routeValuesSort = "this.href += '?searchBy=' + $('input[name = SearchBy]:checked').val() + '&searchByValue=' + $('#searchByValue').val() + '&order=" + currentOrder + "' ";
+
+                <tr>
+                    <th>
+                        @Html.ActionLink("Name", "Contacts", null, new { @onclick = routeValuesSort + "+ '&orderBy=name'" })
+                    </th>
+                    <th>
+                        @Html.ActionLink("Surname", "Contacts", null, new { @onclick = routeValuesSort + "+ '&orderBy=surname'" })
+                    </th>
+                    <th>
+                        @Html.ActionLink("Phone", "Contacts", null, new { @onclick = routeValuesSort + "+ '&orderBy=phone'" })
+                    </th>
+                    <th>
+                        @Html.ActionLink("Email", "Contacts", null, new { @onclick = routeValuesSort + "+ '&orderBy=email'" })
+                    </th>
+                    <th>
+                        @Html.ActionLink("CreatedOn", "Contacts", null, new { @onclick = routeValuesSort + "+ '&orderBy=createon'" })
+                    </th>
+                    <th>
+                        @Html.ActionLink("ModifiedOn", "Contacts", null, new { @onclick = routeValuesSort + "+ '&orderBy=modifiedon'" })
+                    </th>
+                </tr>
+             }
+        </thead>
+        @for (int i = 0; i < Model.Contacts.Count; ++i)
+        {
+            <tr>
+                <td>
+                    @Model.Contacts[i].Name
+                </td>
+                <td>
+                    @Model.Contacts[i].Surname
+                </td>
+                <td>
+                    @Model.Contacts[i].Phone
+                </td>
+                <td>
+                    @Model.Contacts[i].Email
+                </td>
+                <td>
+                    @Model.Contacts[i].CreatedOn
+                </td>
+                <td>
+                    @Model.Contacts[i].ModifiedOn
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "EditContact", new { @contactID = Model.Contacts[i].Id })
+                </td>
+                <td>
+                    @Html.ActionLink("Delete", "DeleteContact", new { @contactID = Model.Contacts[i].Id }, new { @id = "DeleteContact" })
+                </td>
+            </tr>
+        }
+    </table>
+
+    <div class="pagination">
+        @for (int i = Model.NumberOfPaginationPages.First(); i <= Model.NumberOfPaginationPages.Last(); ++i)
+        {
+            if (Model.TotalNumberOfContacts <= 10)
+            {
+                break;
+            }
+
+            string routeValues = "this.href += '?searchBy=' + $('input[name = SearchBy]:checked').val() + '&searchByValue=' + $('#searchByValue').val() + '&currentPage=" + i + "' + '&order=" + Model.CurrentOrder + "' ";
+
+            if (i == Model.CurrentPage)
+            {
+                @Html.ActionLink(i + "", "Contacts", "Contacts", null, new { @onclick = routeValues, @id = "currentPage" })
+            }
+            else
+            {
+                @Html.ActionLink(i + "", "Contacts", "Contacts", null, new { onclick = routeValues })
+            }
+        }
+    </div>
 
 

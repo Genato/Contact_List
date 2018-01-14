@@ -16,16 +16,19 @@ namespace Contact_List.Controllers
     public class ContactsController : Controller
     {
         [HttpGet]
-        public ActionResult Contacts(int currentPage = 1, string orderBy = "id", string order = "asc")
+        public ActionResult Contacts(int currentPage = 1, string orderBy = "id", string order = "asc", string searchBy = "name", string searchByValue = "")
         {
             DbConnection conn = new DbConnection();
             conn.SqlCommand.Connection.Open();
 
             ContactLogic contactlogic = new ContactLogic();
-            int numberOfContacts = contactlogic.GetTotalNumberOfContacts(conn);
+            int numberOfContacts = contactlogic.GetTotalNumberOfContacts(conn, searchBy, searchByValue);
 
             conn.SqlCommand.Parameters.Clear();
-            conn.Reader = contactlogic.GetListOfContactsWithPagination(conn, currentPage, orderBy, order);
+
+            searchByValue = searchByValue == "undefined" ? "" : searchByValue;
+            searchBy = searchBy == "undefined" ? "name" : searchBy;
+            conn.Reader = contactlogic.GetListOfContactsWithPagination(conn, currentPage, orderBy, order, searchBy, searchByValue);
 
             ContactsViewModel listOfContacts = new ContactsViewModel
             {
@@ -33,7 +36,9 @@ namespace Contact_List.Controllers
                 NumberOfPaginationPages = contactlogic.GenerateNumberOfPaginationPagesFromTotalNumberOfContacts(currentPage, numberOfContacts),
                 CurrentPage = currentPage,
                 CurrentOrder = order,
-                TotalNumberOfContacts = numberOfContacts
+                TotalNumberOfContacts = numberOfContacts,
+                SearchBy = searchBy,
+                SearchByValue = searchByValue
             };
 
             conn.SqlCommand.Connection.Close();

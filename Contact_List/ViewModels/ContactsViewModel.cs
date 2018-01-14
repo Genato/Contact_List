@@ -13,5 +13,7 @@ namespace Contact_List.ViewModels
         public int CurrentPage { get; set; }
         public string CurrentOrder { get; set; }
         public int TotalNumberOfContacts { get; set; }
+        public string SearchBy { get; set; }
+        public string SearchByValue { get; set; }
     }
 }

@@ -14,24 +14,28 @@ namespace Contact_List.BusinessLogic
     {
         #region Database functions
 
-        public int GetTotalNumberOfContacts(DbConnection conn)
+        public int GetTotalNumberOfContacts(DbConnection conn, string searchBy, string searchByValue)
         {
             conn.SqlCommand.CommandText = "NumberOfContacts";
             conn.SqlCommand.CommandType = CommandType.StoredProcedure;
             conn.SqlCommand.Parameters.Add("@NumberOfContacts", SqlDbType.Int).Direction = ParameterDirection.Output;
+            conn.SqlCommand.Parameters.Add("@searchBy", SqlDbType.VarChar).Value = searchBy;
+            conn.SqlCommand.Parameters.Add("@searchByValue", SqlDbType.VarChar).Value = searchByValue;
 
             conn.SqlCommand.ExecuteNonQuery();
 
             return (int)conn.SqlCommand.Parameters["@NumberOfContacts"].Value;
         }
 
-        public SqlDataReader GetListOfContactsWithPagination(DbConnection conn, int pageNumber, string orderBy, string order)
+        public SqlDataReader GetListOfContactsWithPagination(DbConnection conn, int pageNumber, string orderBy, string order, string searchBy, string searchByValue)
         {
             conn.SqlCommand.CommandText = "ListOfContactsWithPagination";
             conn.SqlCommand.CommandType = CommandType.StoredProcedure;
             conn.SqlCommand.Parameters.Add("@PageNumber", SqlDbType.Int).Value = pageNumber;
             conn.SqlCommand.Parameters.Add("@OrderBy", SqlDbType.VarChar).Value = orderBy;
             conn.SqlCommand.Parameters.Add("@Order", SqlDbType.VarChar).Value = order;
+            conn.SqlCommand.Parameters.Add("@searchBy", SqlDbType.VarChar).Value = searchBy;
+            conn.SqlCommand.Parameters.Add("@searchByValue", SqlDbType.VarChar).Value = searchByValue;
 
             return conn.SqlCommand.ExecuteReader();
         }
