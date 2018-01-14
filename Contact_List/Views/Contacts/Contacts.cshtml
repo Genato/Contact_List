@@ -1,9 +1,6 @@
 ﻿@model Contact_List.ViewModels.ContactsViewModel
 
 
-<div id="createNewContact">
-    @Html.ActionLink("Create new contact", "CreateNewContact", null, new { @class = "btn btn-success" })
-</div>
 
 <div id="searchDiv">
     <div class="form-group">
@@ -14,9 +11,11 @@
         @Html.Label("Surname")
         @Html.RadioButtonFor(m => m.SearchBy, "surname")
     </div>
-        @Html.TextBoxFor(m => m.SearchByValue, new { @id = "searchByValue" })
+    <div class="form-group">
+        @Html.TextBoxFor(m => m.SearchByValue, new { @id = "searchByValue", @class = "form-control" })
 
-        @Html.ActionLink("Search", "Contacts", "Contacts", null, new { @class = "btn btn-primary", onclick = "this.href += '?searchBy=' + $('input[name = SearchBy]:checked').val() + '&searchByValue=' + $('#searchByValue').val() " })
+        @Html.ActionLink("Search", "Contacts", "Contacts", null, new { @class = "btn btn-primary form-control", onclick = "this.href += '?searchBy=' + $('input[name = SearchBy]:checked').val() + '&searchByValue=' + $('#searchByValue').val() " })
+    </div>
 </div>
 
     <table id="contactsTable" class="table table-hover">
