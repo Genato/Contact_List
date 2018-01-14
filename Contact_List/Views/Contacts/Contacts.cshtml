@@ -2,24 +2,35 @@
 
 
 <div>
-    @Html.ActionLink("Create", "CreateNewContact", null, new { @class = "btn btn-success" })
+    @Html.ActionLink("Create new contact", "CreateNewContact", null, new { @class = "btn btn-success" })
 </div>
 
-<table class="table table-hover">
+<table id="contactsTable" class="table table-hover">
     <thead>
         <tr>
-            <th>@Html.LabelFor(m => m.Contacts.First().Name)</th>
-            <th>@Html.LabelFor(m => m.Contacts.First().Surname)</th>
-            <th>@Html.LabelFor(m => m.Contacts.First().Phone)</th>
-            <th>@Html.LabelFor(m => m.Contacts.First().Email)</th>
+            <th>
+                @Html.ActionLink("Name", "Contacts", new { @orderBy = "name", order = Model.CurrentOrder == "asc" ? "desc" : "asc" })
+            </th>
+            <th>
+                @Html.ActionLink("Surname", "Contacts", new { @orderBy = "surname", order = Model.CurrentOrder == "asc" ? "desc" : "asc" })
+            </th>
+            <th>
+                @Html.ActionLink("Phone", "Contacts", new { @orderBy = "phone", order = Model.CurrentOrder == "asc" ? "desc" : "asc" })
+            </th>
+            <th>
+                @Html.ActionLink("Email", "Contacts", new { @orderBy = "email", order = Model.CurrentOrder == "asc" ? "desc" : "asc" })
+            </th>
+            <th>
+                @Html.ActionLink("CreatedOn", "Contacts", new { @orderBy = "createon", order = Model.CurrentOrder == "asc" ? "desc" : "asc" })
+            </th>
+            <th>
+                @Html.ActionLink("ModifiedOn", "Contacts", new { @orderBy = "modifiedon", order = Model.CurrentOrder == "asc" ? "desc" : "asc" })
+            </th>
         </tr>
     </thead>
     @for (int i = 0; i < Model.Contacts.Count; ++i)
     {
         <tr>
-            @*<td>
-                    @Html.CheckBoxFor(m => m.Contacts[i].Checked)
-                </td>*@
             <td>
                 @Model.Contacts[i].Name
             </td>
@@ -33,10 +44,16 @@
                 @Model.Contacts[i].Email
             </td>
             <td>
+                @Model.Contacts[i].CreatedOn
+            </td>
+            <td>
+                @Model.Contacts[i].ModifiedOn
+            </td>
+            <td>
                 @Html.ActionLink("Edit", "EditContact", new { @contactID = Model.Contacts[i].Id })
             </td>
             <td>
-                @Html.ActionLink("Delete", "DeleteContact", new { @contactID = Model.Contacts[i].Id })
+                @Html.ActionLink("Delete", "DeleteContact", new { @contactID = Model.Contacts[i].Id }, new { @id = "DeleteContact" })
             </td>
         </tr>
     }
@@ -45,13 +62,18 @@
 <div class="pagination">
     @for (int i = Model.NumberOfPaginationPages.First(); i <= Model.NumberOfPaginationPages.Last(); ++i)
     {
+        if (Model.TotalNumberOfContacts <= 10)
+        {
+            break;
+        }
+
         if (i == Model.CurrentPage)
         {
-            @Html.ActionLink(i + "", "Contacts", "Contacts", new { currentPage = i }, new { id = "currentPage" })
+            @Html.ActionLink(i + "", "Contacts", "Contacts", new { currentPage = i, order = Model.CurrentOrder }, new { id = "currentPage" })
         }
         else
         {
-            @Html.ActionLink(i + "", "Contacts", "Contacts", new { currentPage = i }, null)
+            @Html.ActionLink(i + "", "Contacts", "Contacts", new { currentPage = i, order = Model.CurrentOrder }, null)
         }
     }
 </div>

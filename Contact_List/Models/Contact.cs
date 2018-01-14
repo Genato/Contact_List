@@ -11,22 +11,29 @@ namespace Contact_List.Models
     {
         public int Id { get; set; }
 
-        [Required]
+        [MaxLength(50, ErrorMessage = "Maximum length of name is 50")]
         [DisplayName("Name")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Please enter a name")]
         public string Name { get; set; }
 
-        [Required]
+        [MaxLength(50, ErrorMessage = "Maximum length of surnamename is 50")]
         [DisplayName("Surname")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Please enter a surname")]
         public string Surname { get; set; }
 
-        [Required]
+        [MaxLength(50, ErrorMessage = "Maximum length of phone is 50")]
         [DisplayName("Phone")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Please enter a phone")]
         public string Phone { get; set; }
 
+        [MaxLength(50, ErrorMessage = "Maximum length of email is 50")]
         [EmailAddress]
         [DisplayName("Email address")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Please enter a email")]
         public string Email { get; set; }
 
+        [Required]
+        [DisplayName("CreatedOn")]
         public DateTime CreatedOn { get; set; }
 
         public DateTime ModifiedOn { get; set; }

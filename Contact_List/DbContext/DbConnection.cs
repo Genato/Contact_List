@@ -5,7 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Configuration;
 
-namespace Contact_List.BusinessLogic
+namespace Contact_List.DbContext
 {
     /// <summary>
     /// ADO.NET waraper

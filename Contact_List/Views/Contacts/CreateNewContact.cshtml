@@ -1,18 +1,36 @@
-﻿@{
-    ViewBag.Title = "Contact";
+﻿@model Contact_List.Models.Contact
+
+<h3>Create new contact</h3>
+
+@using (Html.BeginForm("CreateNewContact", "Contacts", FormMethod.Post))
+{
+    <div class="form-group">
+        <div>
+            @Html.LabelFor(m => m.Name)
+            @Html.ValidationMessageFor(model => model.Name, null, new { @class = "text-danger" })
+            @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+        </div>
+
+        <div>
+            @Html.LabelFor(m => m.Surname)
+            @Html.ValidationMessageFor(model => model.Surname, null, new { @class = "text-danger" })
+            @Html.TextBoxFor(m => m.Surname, new { @class = "form-control" })
+        </div>
+
+        <div>
+            @Html.LabelFor(m => m.Phone)
+            @Html.ValidationMessageFor(model => model.Phone, null, new { @class = "text-danger" })
+            @Html.TextBoxFor(m => m.Phone, new { @class = "form-control" })
+        </div>
+
+        <div>
+            @Html.LabelFor(m => m.Email)
+            @Html.ValidationMessageFor(model => model.Email, null, new { @class = "text-danger" })
+            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <input type="submit" class="btn btn-success" value="Create" />
 }
-<h2>@ViewBag.Title.</h2>
-<h3>@ViewBag.Message</h3>
 
-<address>
-    One Microsoft Way<br />
-    Redmond, WA 98052-6399<br />
-    <abbr title="Phone">P:</abbr>
-    425.555.0100
-</address>
-
-<address>
-    <strong>Support:</strong>   <a href="mailto:Support@example.com">Support@example.com</a><br />
-    <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
-</address>
 
