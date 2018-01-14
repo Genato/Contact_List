@@ -3,14 +3,10 @@
 
 
 <div id="searchDiv">
-    <div class="form-group">
         @Html.Label("Name")
-        @Html.RadioButtonFor(m => m.SearchBy, "name")
-    </div>
-    <div class="form-group">
+        @Html.RadioButtonFor(m => m.SearchBy, "name") <br />
         @Html.Label("Surname")
         @Html.RadioButtonFor(m => m.SearchBy, "surname")
-    </div>
     <div class="form-group">
         @Html.TextBoxFor(m => m.SearchByValue, new { @id = "searchByValue", @class = "form-control" })
 
