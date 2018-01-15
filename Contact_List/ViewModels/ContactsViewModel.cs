@@ -15,5 +15,6 @@ namespace Contact_List.ViewModels
         public int TotalNumberOfContacts { get; set; }
         public string SearchBy { get; set; }
         public string SearchByValue { get; set; }
+        public string OrderBy { get; set; }
     }
 }

@@ -1,16 +1,16 @@
 ﻿@model Contact_List.ViewModels.ContactsViewModel
-
+@using Contact_List.LanguageResources
 
 
 <div id="searchDiv">
-        @Html.Label("Name")
+        @Html.Label(Default.Contact_Name)
         @Html.RadioButtonFor(m => m.SearchBy, "name") <br />
-        @Html.Label("Surname")
+        @Html.Label(Default.Contact_Surname)
         @Html.RadioButtonFor(m => m.SearchBy, "surname")
     <div class="form-group">
         @Html.TextBoxFor(m => m.SearchByValue, new { @id = "searchByValue", @class = "form-control" })
 
-        @Html.ActionLink("Search", "Contacts", "Contacts", null, new { @class = "btn btn-primary form-control", onclick = "this.href += '?searchBy=' + $('input[name = SearchBy]:checked').val() + '&searchByValue=' + $('#searchByValue').val() " })
+        @Html.ActionLink(Default.ActionLink_Search, "Contacts", "Contacts", null, new { @class = "btn btn-primary form-control", onclick = "this.href += '?searchBy=' + $('input[name = SearchBy]:checked').val() + '&searchByValue=' + $('#searchByValue').val() " })
     </div>
 </div>
 
@@ -22,22 +22,22 @@
 
                 <tr>
                     <th>
-                        @Html.ActionLink("Name", "Contacts", null, new { @onclick = routeValuesSort + "+ '&orderBy=name'" })
+                        @Html.ActionLink(Default.Contact_Name, "Contacts", null, new { @onclick = routeValuesSort + "+ '&orderBy=name'" })
                     </th>
                     <th>
-                        @Html.ActionLink("Surname", "Contacts", null, new { @onclick = routeValuesSort + "+ '&orderBy=surname'" })
+                        @Html.ActionLink(Default.Contact_Surname, "Contacts", null, new { @onclick = routeValuesSort + "+ '&orderBy=surname'" })
                     </th>
                     <th>
-                        @Html.ActionLink("Phone", "Contacts", null, new { @onclick = routeValuesSort + "+ '&orderBy=phone'" })
+                        @Html.ActionLink(Default.Contact_Phone, "Contacts", null, new { @onclick = routeValuesSort + "+ '&orderBy=phone'" })
                     </th>
                     <th>
-                        @Html.ActionLink("Email", "Contacts", null, new { @onclick = routeValuesSort + "+ '&orderBy=email'" })
+                        @Html.ActionLink(Default.Contact_Email, "Contacts", null, new { @onclick = routeValuesSort + "+ '&orderBy=email'" })
                     </th>
                     <th>
-                        @Html.ActionLink("CreatedOn", "Contacts", null, new { @onclick = routeValuesSort + "+ '&orderBy=createon'" })
+                        @Html.ActionLink(Default.Contact_CreatedOn, "Contacts", null, new { @onclick = routeValuesSort + "+ '&orderBy=createon'" })
                     </th>
                     <th>
-                        @Html.ActionLink("ModifiedOn", "Contacts", null, new { @onclick = routeValuesSort + "+ '&orderBy=modifiedon'" })
+                        @Html.ActionLink(Default.Contact_ModifiedOn, "Contacts", null, new { @onclick = routeValuesSort + "+ '&orderBy=modifiedon'" })
                     </th>
                 </tr>
              }
@@ -81,7 +81,7 @@
                 break;
             }
 
-            string routeValues = "this.href += '?searchBy=' + $('input[name = SearchBy]:checked').val() + '&searchByValue=' + $('#searchByValue').val() + '&currentPage=" + i + "' + '&order=" + Model.CurrentOrder + "' ";
+            string routeValues = "this.href += '?searchBy=' + $('input[name = SearchBy]:checked').val() + '&searchByValue=' + $('#searchByValue').val() + '&currentPage=" + i + "' + '&order=" + Model.CurrentOrder + "' + '&orderBy="+Model.OrderBy+"' ";
 
             if (i == Model.CurrentPage)
             {

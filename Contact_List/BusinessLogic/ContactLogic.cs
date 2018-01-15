@@ -40,7 +40,7 @@ namespace Contact_List.BusinessLogic
             return conn.SqlCommand.ExecuteReader();
         }
 
-        public bool CreateNewContact(DbConnection conn, string name, string surname, string phone, string email)
+        public int CreateNewContact(DbConnection conn, string name, string surname, string phone, string email)
         {
             conn.SqlCommand.CommandText = "CreateNewContact";
             conn.SqlCommand.CommandType = CommandType.StoredProcedure;
@@ -48,8 +48,11 @@ namespace Contact_List.BusinessLogic
             conn.SqlCommand.Parameters.Add("@Surname", SqlDbType.VarChar).Value = surname;
             conn.SqlCommand.Parameters.Add("@phone", SqlDbType.VarChar).Value = phone;
             conn.SqlCommand.Parameters.Add("@email", SqlDbType.VarChar).Value = email;
+            conn.SqlCommand.Parameters.Add("@contactID", SqlDbType.Int).Direction = ParameterDirection.Output;
 
-            return conn.SqlCommand.ExecuteNonQuery() == 1 ? true : false;
+            conn.SqlCommand.ExecuteNonQuery();
+
+            return (int)conn.SqlCommand.Parameters["@contactID"].Value;
         }
 
         public bool UpdateContact(DbConnection conn, string name, string surname, string phone, string email, int contactID)

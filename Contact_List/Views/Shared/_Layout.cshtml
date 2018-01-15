@@ -1,11 +1,13 @@
-﻿<!DOCTYPE html>
+﻿@using Contact_List.LanguageResources
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - My ASP.NET Application</title>
-    @Scripts.Render("~/bundles/bootstrap")
     @Styles.Render("~/CustomContent")
+    @Scripts.Render("~/bundles/bootstrap")
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 
@@ -22,17 +24,26 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Contacts", "Contacts", "Contacts")</li>
-                    <li>@Html.ActionLink("Create new contact", "CreateNewContact")</li>
+                    <li>@Html.ActionLink(Default.ActionLink_Contacts, "Contacts", "Contacts")</li>
+                    <li>@Html.ActionLink(Default.ActionLink_CreateContact, "CreateNewContact")</li>
                 </ul>
             </div>
         </div>
     </div>
     <div class="container body-content">
+
+        <div class="dropdown">
+            <span>@Default.Change_Language</span>
+            <div class="dropdown-content">
+                @Html.ActionLink(Default.HR, "ChangeLanguage", new { @SelectedLanguage="hr" }, new { method = "PUT" })
+                @Html.ActionLink(Default.ENG, "ChangeLanguage", new { @SelectedLanguage = "en" }, new { method = "PUT" })
+            </div>
+        </div>
+
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            <p>&copy; @DateTime.Now.Year - @Default.Application_Name</p>
         </footer>
     </div>
 

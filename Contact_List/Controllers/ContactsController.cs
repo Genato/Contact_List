@@ -1,12 +1,15 @@
 ﻿using Contact_List.BusinessLogic;
 using Contact_List.DbContext;
+using Contact_List.LanguageResources;
 using Contact_List.Models;
 using Contact_List.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.Linq;
+using System.Threading;
 using System.Web;
 using System.Web.Configuration;
 using System.Web.Mvc;
@@ -36,6 +39,7 @@ namespace Contact_List.Controllers
                 NumberOfPaginationPages = contactlogic.GenerateNumberOfPaginationPagesFromTotalNumberOfContacts(currentPage, numberOfContacts),
                 CurrentPage = currentPage,
                 CurrentOrder = order,
+                OrderBy = orderBy,
                 TotalNumberOfContacts = numberOfContacts,
                 SearchBy = searchBy,
                 SearchByValue = searchByValue
@@ -49,8 +53,6 @@ namespace Contact_List.Controllers
         [HttpGet]
         public ActionResult CreateNewContact()
         {
-            ViewBag.Message = "Create new contact";
-
             return View();
         }
 
@@ -61,16 +63,23 @@ namespace Contact_List.Controllers
             conn.SqlCommand.Connection.Open();
 
             ContactLogic logic = new ContactLogic();
-            bool success = logic.CreateNewContact(conn, newContact.Name, newContact.Surname, newContact.Phone, newContact.Email);
+            int contactID = -1;
 
-            if (!success)
+            try
             {
-                ViewData["Message"] = "Something went wrong while creating new contact";
+                contactID = logic.CreateNewContact(conn, newContact.Name, newContact.Surname, newContact.Phone, newContact.Email);
+                newContact.Id = contactID;
+            }
+            catch(Exception e)
+            {
+                ViewData["Message"] = ErrorMessages.CreateNewContact;
 
                 return View("Messages");
             }
-
-            conn.SqlCommand.Connection.Close();
+            finally
+            {
+                conn.SqlCommand.Connection.Close();
+            }
 
             return View("EditContact", newContact);
         }
@@ -109,9 +118,9 @@ namespace Contact_List.Controllers
             bool success = contactlogic.UpdateContact(conn, editedContact.Name, editedContact.Surname, editedContact.Phone, editedContact.Email, editedContact.Id);
 
             if (success)
-                ViewData["Message"] = "You have successfully updated the contact";
+                ViewData["Message"] = ErrorMessages.EditContact_Success;
             else
-                ViewData["Message"] = "Something went wrong while updating new contact";
+                ViewData["Message"] = ErrorMessages.EditContact_Error;
 
             conn.SqlCommand.Connection.Close();
 
@@ -128,14 +137,32 @@ namespace Contact_List.Controllers
             bool success = contactlogic.DeleteContact(conn, contactID);
 
             if (success)
-                ViewData["Message"] = "You have successfully deleted the contact";
+                ViewData["Message"] = ErrorMessages.DeleteContact_Success;
             else
-                ViewData["Message"] = "Something went wrong while deleting new contact";
+                ViewData["Message"] = ErrorMessages.DeleteContact_Error;
 
             conn.SqlCommand.Connection.Close();
 
             return View("Messages");
         }
 
+        [HttpGet]
+        public ActionResult ChangeLanguage(string SelectedLanguage)
+        {
+            if (SelectedLanguage != null)
+            {
+                Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture(SelectedLanguage);
+                Thread.CurrentThread.CurrentUICulture =  new CultureInfo(SelectedLanguage);
+
+                var cookie = new HttpCookie("Language");
+                cookie.Value = SelectedLanguage;
+
+                Response.Cookies.Add(cookie);
+            }
+
+            ViewData["Message"] = Default.Languages_Changed;
+
+            return View("Messages");
+        }
     }
 }

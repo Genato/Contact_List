@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Contact_List.LanguageResources;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Security.AccessControl;
 using System.Web;
 
 namespace Contact_List.Models
@@ -11,29 +13,27 @@ namespace Contact_List.Models
     {
         public int Id { get; set; }
 
-        [MaxLength(50, ErrorMessage = "Maximum length of name is 50")]
-        [DisplayName("Name")]
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Please enter a name")]
+        [Display(Name = nameof(Default.Contact_Name), ResourceType = typeof(Default))]
+        [MaxLength(50, ErrorMessageResourceName = "Max_Length", ErrorMessageResourceType = typeof(ErrorMessages))]
+        [Required(AllowEmptyStrings = false, ErrorMessageResourceName  = "Please_provide_a_name", ErrorMessageResourceType = typeof(ErrorMessages))]
         public string Name { get; set; }
 
-        [MaxLength(50, ErrorMessage = "Maximum length of surnamename is 50")]
-        [DisplayName("Surname")]
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Please enter a surname")]
+        [Display(Name = nameof(Default.Contact_Surname), ResourceType = typeof(Default))]
+        [MaxLength(50, ErrorMessageResourceName = "Max_Length", ErrorMessageResourceType = typeof(ErrorMessages))]
+        [Required(AllowEmptyStrings = false, ErrorMessageResourceName = "Please_provide_a_surname", ErrorMessageResourceType = typeof(ErrorMessages))]
         public string Surname { get; set; }
 
-        [MaxLength(50, ErrorMessage = "Maximum length of phone is 50")]
-        [DisplayName("Phone")]
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Please enter a phone")]
+        [Display(Name = nameof(Default.Contact_Phone), ResourceType = typeof(Default))]
+        [MaxLength(50, ErrorMessageResourceName = "Max_Length", ErrorMessageResourceType = typeof(ErrorMessages))]
+        [Required(AllowEmptyStrings = false, ErrorMessageResourceName = "Please_provide_a_phone", ErrorMessageResourceType = typeof(ErrorMessages))]
         public string Phone { get; set; }
 
-        [MaxLength(50, ErrorMessage = "Maximum length of email is 50")]
         [EmailAddress]
-        [DisplayName("Email address")]
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Please enter a email")]
+        [Display(Name = nameof(Default.Contact_Email), ResourceType = typeof(Default))]
+        [Required(AllowEmptyStrings = false, ErrorMessageResourceName = "Please_provide_email", ErrorMessageResourceType = typeof(ErrorMessages))]
         public string Email { get; set; }
 
-        [Required]
-        [DisplayName("CreatedOn")]
+        [Display(Name = nameof(Default.Contact_CreatedOn), ResourceType = typeof(Default))]
         public DateTime CreatedOn { get; set; }
 
         public DateTime ModifiedOn { get; set; }

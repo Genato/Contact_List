@@ -1,6 +1,7 @@
 ﻿@model Contact_List.Models.Contact
+    @using Contact_List.LanguageResources
 
-<h3>Create new contact</h3>
+<h3>@Default.ActionLink_CreateContact</h3>
 
 @using (Html.BeginForm("CreateNewContact", "Contacts", FormMethod.Post))
 {
@@ -30,7 +31,7 @@
         </div>
     </div>
 
-    <input type="submit" class="btn btn-success" value="Create" />
+    <input type="submit" class="btn btn-success" value=@Default.ActionLink_Create />
 }
 
 
