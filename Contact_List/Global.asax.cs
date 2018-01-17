@@ -24,7 +24,10 @@ namespace Contact_List
         {
             HttpCookie cookie = HttpContext.Current.Request.Cookies["Language"];
 
-            if (cookie == null && cookie.Value == null)
+            if (cookie == null)
+                return;
+
+            if (cookie.Value == null)
                 return;
 
             System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo(cookie.Value);
